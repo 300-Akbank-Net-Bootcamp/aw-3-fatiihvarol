@@ -1,21 +1,17 @@
 using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VbApi.Controllers;
 
 public class Staff
 {
-    [Required]
-    [StringLength(maximumLength: 250, MinimumLength = 10)]
     public string? Name { get; set; }
 
-    [EmailAddress(ErrorMessage = "Email address is not valid.")]
     public string? Email { get; set; }
 
-    [Phone(ErrorMessage = "Phone is not valid.")]
     public string? Phone { get; set; }
 
-    [Range(minimum: 30, maximum: 400, ErrorMessage = "Hourly salary does not fall within allowed range.")]
     public decimal? HourlySalary { get; set; }
 }
 
@@ -23,13 +19,23 @@ public class Staff
 [ApiController]
 public class StaffController : ControllerBase
 {
-    public StaffController()
+        private readonly IValidator<Staff> _staffValidator;
+
+     public StaffController(IValidator<Staff> staffValidator)
     {
+        _staffValidator = staffValidator ?? throw new ArgumentNullException(nameof(staffValidator));
     }
 
     [HttpPost]
-    public Staff Post([FromBody] Staff value)
+    public IActionResult Post([FromBody] Staff value)
     {
-        return value;
+        var validationResult = _staffValidator.Validate(value);
+       if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors.Select(error => error.ErrorMessage));
+        }
+
+       
+        return Ok(value);
     }
 }
