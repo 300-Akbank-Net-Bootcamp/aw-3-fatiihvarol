@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VbApi.Entity;
 
-namespace Vb.Data.Entity;
+namespace VbApi.Entity;
 
 [Table("Contact", Schema = "dbo")]
 public class Contact : BaseEntity
 {
     public int CustomerId { get; set; }
     public virtual Customer Customer { get; set; }
-    
+
     public string ContactType { get; set; }
     public string Information { get; set; }
     public bool IsDefault { get; set; }
@@ -24,7 +24,7 @@ public class ContactConfiguration : IEntityTypeConfiguration<Contact>
         builder.Property(x => x.UpdateDate).IsRequired(false);
         builder.Property(x => x.UpdateUserId).IsRequired(false);
         builder.Property(x => x.IsActive).IsRequired(true).HasDefaultValue(true);
-        
+
         builder.Property(x => x.CustomerId).IsRequired(true);
         builder.Property(x => x.ContactType).IsRequired(true).HasMaxLength(10);
         builder.Property(x => x.Information).IsRequired(true).HasMaxLength(100);

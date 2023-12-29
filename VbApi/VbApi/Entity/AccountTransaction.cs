@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VbApi.Entity;
 
-namespace Vb.Data.Entity;
+namespace VbApi.Entity;
 
 [Table("AccountTransaction", Schema = "dbo")]
 public class AccountTransaction : BaseEntity

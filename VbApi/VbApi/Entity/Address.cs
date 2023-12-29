@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VbApi.Entity;
 
-namespace Vb.Data.Entity;
+namespace VbApi.Entity;
 
 [Table("Address", Schema = "dbo")]
 public class Address : BaseEntity
@@ -28,7 +28,7 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder.Property(x => x.UpdateDate).IsRequired(false);
         builder.Property(x => x.UpdateUserId).IsRequired(false);
         builder.Property(x => x.IsActive).IsRequired(true).HasDefaultValue(true);
-        
+
         builder.Property(x => x.CustomerId).IsRequired(true);
         builder.Property(x => x.Address1).IsRequired(true).HasMaxLength(150);
         builder.Property(x => x.Address2).IsRequired(false).HasMaxLength(150);
@@ -37,7 +37,7 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder.Property(x => x.County).IsRequired(false).HasMaxLength(100);
         builder.Property(x => x.PostalCode).IsRequired(false).HasMaxLength(10);
         builder.Property(x => x.IsDefault).IsRequired(true).HasDefaultValue(false);
-        
+
         builder.HasIndex(x => x.CustomerId);
     }
 }

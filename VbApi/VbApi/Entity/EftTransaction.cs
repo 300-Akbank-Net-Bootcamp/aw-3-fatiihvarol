@@ -3,19 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VbApi.Entity;
 
-namespace Vb.Data.Entity;
+namespace VbApi.Entity;
 
 [Table("EftTransaction", Schema = "dbo")]
 public class EftTransaction : BaseEntity
 {
     public int AccountId { get; set; }
     public virtual Account Account { get; set; }
-    
+
     public string ReferenceNumber { get; set; }
     public DateTime TransactionDate { get; set; }
     public decimal Amount { get; set; }
     public string Description { get; set; }
-    
+
     public string SenderAccount { get; set; }
     public string SenderIban { get; set; }
     public string SenderName { get; set; }
@@ -38,7 +38,7 @@ public class EftTransactionConfiguration : IEntityTypeConfiguration<EftTransacti
         builder.Property(x => x.SenderAccount).IsRequired(true).HasMaxLength(50);
         builder.Property(x => x.SenderIban).IsRequired(true).HasMaxLength(50);
         builder.Property(x => x.SenderName).IsRequired(true).HasMaxLength(50);
-        
+
         builder.HasIndex(x => x.ReferenceNumber);
     }
 }

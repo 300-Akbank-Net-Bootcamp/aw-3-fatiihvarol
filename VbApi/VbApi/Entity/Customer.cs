@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VbApi.Entity;
 
-namespace Vb.Data.Entity;
+namespace VbApi.Entity;
 
 [Table("Customer", Schema = "dbo")]
 public class Customer : BaseEntity
@@ -14,8 +14,8 @@ public class Customer : BaseEntity
     public int CustomerNumber { get; set; }
     public DateTime DateOfBirth { get; set; }
     public DateTime LastActivityDate { get; set; }
-    
-    
+
+
     public virtual List<Address> Addresses { get; set; }
     public virtual List<Contact> Contacts { get; set; }
     public virtual List<Account> Accounts { get; set; }
@@ -45,12 +45,12 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .WithOne(x => x.Customer)
             .HasForeignKey(x => x.CustomerId)
             .IsRequired(true);
-        
+
         builder.HasMany(x => x.Contacts)
             .WithOne(x => x.Customer)
             .HasForeignKey(x => x.CustomerId)
             .IsRequired(true);
-        
+
         builder.HasMany(x => x.Addresses)
             .WithOne(x => x.Customer)
             .HasForeignKey(x => x.CustomerId)

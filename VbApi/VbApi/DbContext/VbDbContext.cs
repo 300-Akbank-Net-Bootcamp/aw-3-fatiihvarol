@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using Vb.Data.Entity;
+
 using VbApi.Entity;
 
 
 public class VbDbContext : DbContext
 {
-    public VbDbContext(DbContextOptions<VbDbContext> options): base(options)
+    public VbDbContext(DbContextOptions<VbDbContext> options) : base(options)
     {
-    
-    }   
-    
+
+    }
+
     // dbset 
     public DbSet<Account> Accounts { get; set; }
     public DbSet<AccountTransaction> AccountTransactions { get; set; }
@@ -17,7 +17,7 @@ public class VbDbContext : DbContext
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<EftTransaction> EftTransactions { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
@@ -28,5 +28,5 @@ public class VbDbContext : DbContext
         modelBuilder.ApplyConfiguration(new EftTransactionConfiguration());
         base.OnModelCreating(modelBuilder);
     }
-    
+
 }
