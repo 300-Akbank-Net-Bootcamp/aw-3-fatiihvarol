@@ -1,8 +1,10 @@
 
 using System.Reflection;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using VbApi.Business.Cqrs;
 using VbApi.Business.Mapper;
+using VbApi.Business.Validator;
 
 namespace VbApi
 {
@@ -33,7 +35,11 @@ namespace VbApi
             
             //mediator
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).GetTypeInfo().Assembly));
-
+            
+            services.AddControllers().AddFluentValidation(x =>
+            {
+                x.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>();
+            });
 
         }
 

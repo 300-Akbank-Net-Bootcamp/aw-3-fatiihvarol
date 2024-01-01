@@ -37,8 +37,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Business\Command\" />
-      <Folder Include="Business\Validator\" />
       <Folder Include="Data\" />
       <Folder Include="Schema\" />
     </ItemGroup>

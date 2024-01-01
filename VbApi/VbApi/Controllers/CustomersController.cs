@@ -50,6 +50,28 @@ public class CustomersController : ControllerBase
         return result;
     }
 
+    [HttpPost]
+    public async Task<ApiResponse<CustomerResponse>> CreateCustomer([FromBody] CustomerRequest newCustomer)
+    {
+        var operation = new CreateCustomerCommand(newCustomer);
+        var result = await _mediator.Send(operation);
+        return result;
+    }
+    [HttpPut]
+    public async Task<ApiResponse> UpdateCustomer(int id,[FromBody] CustomerRequest newCustomer)
+    {
+        var operation = new UpdateCustomerCommand(id,newCustomer);
+        var result = await _mediator.Send(operation);
+        return result;
+    }
+    [HttpDelete]
+    public async Task<ApiResponse> DeleteCustomer(int id)
+    {
+        var operation = new DeleteCustomerCommand(id);
+        var result = await _mediator.Send(operation);
+        return result;
+    }
+
 
     
 }
