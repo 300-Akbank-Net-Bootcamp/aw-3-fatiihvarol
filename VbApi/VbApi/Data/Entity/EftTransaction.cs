@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VbApi.Entity;
+using VbApi.Data.Entity;
 
-namespace VbApi.Entity;
+namespace VbApi.Data.Entity;
 
 [Table("EftTransaction", Schema = "dbo")]
 public class EftTransaction : BaseEntity

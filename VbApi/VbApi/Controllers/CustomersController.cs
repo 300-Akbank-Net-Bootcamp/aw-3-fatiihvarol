@@ -1,114 +1,55 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using VbApi.Entity;
-using VbApi.DTO;
+
+
 using AutoMapper;
+using MediatR;
+using Vb.Base.Response;
+using VbApi.Business.Cqrs;
+using VbApi.Schema.DTO;
 
 namespace VbApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class CustomersController : ControllerBase
 {
     private readonly VbDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
-    public CustomersController(VbDbContext dbContext,IMapper mapper)
+    public CustomersController(VbDbContext dbContext,IMapper mapper, IMediator mediator)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<List<Customer>> Get()
+    public async Task<ApiResponse<List<CustomerResponse>>> GetAllCustomer()
     {
-
-        return await _dbContext.Set<Customer>()
-            .Include(z=>z.Contacts)
-            .Include(x=>x.Addresses)
-            .Include(x=>x.Accounts)
-            .ToListAsync();
+        var operation = new GetAllCustomersQuery();
+        var result = await _mediator.Send(operation);
+        return result;
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ApiResponse<CustomerResponse>> GetCustomerById(int id)
     {
-        
-
-        var customer = await _dbContext.Set<Customer>()
-            .Include(x => x.Accounts)
-            .Include(x => x.Addresses)
-            .Include(x => x.Contacts)
-            .Where(x => x.Id == id)
-            .FirstOrDefaultAsync();
-
-        if (customer is null)
-        {
-            return NotFound(); 
-        }
-
-      return Ok(customer);
+        var operation = new GetCustomerByIdQuery(id);
+        var result = await _mediator.Send(operation);
+        return result;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CustomerDTO newCustomer)
+    [HttpGet("search")]
+
+    public async Task<ApiResponse<List<CustomerResponse>>> GetCustomerByParameter(string firstName, string lastName, string identityNumber)
     {
-        try
-        {
-            var customer = _mapper.Map<Customer>(newCustomer);
-
-            var addresses = newCustomer.AddressDtos.Select(x => _mapper.Map<Address>(x)).ToList();
-            var contacts = newCustomer.ContactDtos.Select(x => _mapper.Map<Contact>(x)).ToList();
-            var accounts = newCustomer.AccountDtos.Select(x => _mapper.Map<Account>(x)).ToList();
-
-            
-
-            customer.Addresses = addresses;
-            customer.Contacts = contacts;
-            customer.Accounts = accounts;
-
-            // Add and save to the database
-            await _dbContext.AddAsync(customer);
-            await _dbContext.SaveChangesAsync();
-
-            // Return success response
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        var operation = new GetCustomerByParameterQuery(firstName, lastName, identityNumber);
+        var result = await _mediator.Send(operation);
+        return result;
     }
 
 
-
-
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] CustomerDTO customer)
-    {
-        var fromdb = await _dbContext.Set<Customer>().Where(x => x.Id == id).FirstOrDefaultAsync();
-        if (fromdb is null)
-            return BadRequest("User not found");
-        
-        // Update the properties of the existing 'fromdb' object with values from 'customer'
-        _mapper.Map(customer, fromdb);
-        
-        _dbContext.Update(fromdb);
-        await _dbContext.SaveChangesAsync();
-        return Ok();
-    }
-
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var fromdb = await _dbContext.Set<Customer>().Where(x => x.Id == id).FirstOrDefaultAsync();
-        if (fromdb is null)
-            return BadRequest("User not found");
-        fromdb.IsActive = false;
-        _dbContext.Update(fromdb);
-        await _dbContext.SaveChangesAsync();
-        return Ok("Deleted");
-    }
+    
 }

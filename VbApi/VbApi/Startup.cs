@@ -1,10 +1,8 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using VbApi.AutoMapping;
+using VbApi.Business.Cqrs;
+using VbApi.Business.Mapper;
 
 namespace VbApi
 {
@@ -32,6 +30,11 @@ namespace VbApi
 
             // Add AutoMapper configuration
             services.AddAutoMapper(typeof(MappingProfile)); // Add your mapping profile class
+            
+            //mediator
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).GetTypeInfo().Assembly));
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

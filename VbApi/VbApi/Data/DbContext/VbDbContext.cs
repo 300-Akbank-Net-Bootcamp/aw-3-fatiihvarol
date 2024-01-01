@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-using VbApi.Entity;
+using VbApi.Data.Entity;
 
 
 public class VbDbContext : DbContext
