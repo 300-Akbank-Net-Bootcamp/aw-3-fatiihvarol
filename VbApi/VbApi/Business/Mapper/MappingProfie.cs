@@ -31,8 +31,11 @@ namespace VbApi.Business.Mapper
             CreateMap<Account, AccountResponse>()
                 .ForMember(dest => dest.CustomerName,
                     src => src.MapFrom(x => x.Customer.FirstName + " " + x.Customer.LastName));
+            CreateMap<Account, AccountResponse>()
+                .ForMember(dest => dest.CustomerName,
+                    src => src.MapFrom(x => x.Customer.FirstName + " " + x.Customer.LastName));
 
-        
+            
             CreateMap<AccountTransactionRequest, AccountTransaction>();
             CreateMap<AccountTransaction, AccountTransactionResponse>();
             
