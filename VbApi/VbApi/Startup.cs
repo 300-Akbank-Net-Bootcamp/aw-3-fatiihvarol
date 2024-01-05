@@ -40,6 +40,8 @@ namespace VbApi
             {
                 x.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>();
                 x.RegisterValidatorsFromAssemblyContaining<CreateAddressValidator>();
+                x.RegisterValidatorsFromAssemblyContaining<CreateContactValidator>();
+
 
             });
 
