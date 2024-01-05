@@ -20,7 +20,9 @@ namespace VbApi.Business.Mapper
                     src => src.MapFrom(x => x.Customer.FirstName + " " + x.Customer.LastName));
 
         
-            CreateMap<ContactRequest, Contact>();
+            CreateMap<ContactRequest, Contact>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<ContactRequest, ContactResponse>();
             CreateMap<Contact, ContactResponse>()
                 .ForMember(dest => dest.CustomerName,
                     src => src.MapFrom(x => x.Customer.FirstName + " " + x.Customer.LastName));
