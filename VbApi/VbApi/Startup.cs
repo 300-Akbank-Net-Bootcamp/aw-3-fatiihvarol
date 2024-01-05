@@ -39,6 +39,8 @@ namespace VbApi
             services.AddControllers().AddFluentValidation(x =>
             {
                 x.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>();
+                x.RegisterValidatorsFromAssemblyContaining<CreateAddressValidator>();
+
             });
 
         }
