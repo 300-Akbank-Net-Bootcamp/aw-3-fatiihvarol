@@ -2,7 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vb.Base.Response;
-using VbApi.Business.Cqrs;
+    using VbApi.Business.Cqrs;
 using VbApi.Data.Entity;
 using VbApi.Schema.DTO;
 
@@ -67,7 +67,7 @@ public class CustomerQueryHandler:
             ).ToListAsync(cancellationToken);
 
 
-        if (list == null || !list.Any())
+        if ( !list.Any())
         {
             return new ApiResponse<List<CustomerResponse>>("No matching records found");
         }

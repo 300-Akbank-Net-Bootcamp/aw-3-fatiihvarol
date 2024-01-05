@@ -29,12 +29,11 @@ public class CustomerCommandHandler :
     {
         // IdentityNumber kontrolü
         var existingCustomer = await _dbContext.Set<Customer>()
-            .FirstOrDefaultAsync(x => x.IdentityNumber == request.Model.IdentityNumber);
+            .FirstOrDefaultAsync(x => x.IdentityNumber == request.Model.IdentityNumber,cancellationToken);
 
         if (existingCustomer != null)
-        {
             return new ApiResponse<CustomerResponse>("Identity Number already taken");
-        }
+        
 
 
         var newCustomerNumber = await GenerateUniqueCustomerNumberAsync(cancellationToken);

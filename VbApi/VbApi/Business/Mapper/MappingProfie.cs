@@ -1,4 +1,5 @@
 using AutoMapper;
+using VbApi.Business.Cqrs;
 using VbApi.Schema.DTO;
 
 using VbApi.Data.Entity;
@@ -13,6 +14,7 @@ namespace VbApi.Business.Mapper
             CreateMap<Customer, CustomerResponse>();
         
             CreateMap<AddressRequest, Address>();
+            
             CreateMap<Address, AddressResponse>()
                 .ForMember(dest => dest.CustomerName,
                     src => src.MapFrom(x => x.Customer.FirstName + " " + x.Customer.LastName));
@@ -31,6 +33,8 @@ namespace VbApi.Business.Mapper
         
             CreateMap<AccountTransactionRequest, AccountTransaction>();
             CreateMap<AccountTransaction, AccountTransactionResponse>();
+            
+            CreateMap<AddressRequest, AddressResponse>();
         
             CreateMap<EftTransactionRequest, EftTransaction>();
             CreateMap<EftTransaction, EftTransactionResponse>();
